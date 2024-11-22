@@ -1,6 +1,7 @@
 packages/*/package-lock.json
 .env.stage.prod
 .env.stage.dev
+.env
 # dependencies
 node_modules/
 
