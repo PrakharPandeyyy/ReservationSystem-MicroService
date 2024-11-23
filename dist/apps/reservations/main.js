@@ -203,7 +203,6 @@ const reservations_controller_1 = __webpack_require__(/*! ./reservations.control
 const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
 const reservations_repository_1 = __webpack_require__(/*! ./reservations.repository */ "./apps/reservations/src/reservations.repository.ts");
 const reservation_schema_1 = __webpack_require__(/*! ./models/reservation.schema */ "./apps/reservations/src/models/reservation.schema.ts");
-const nestjs_pino_1 = __webpack_require__(/*! nestjs-pino */ "nestjs-pino");
 let ReservationsModule = class ReservationsModule {
 };
 exports.ReservationsModule = ReservationsModule;
@@ -214,16 +213,7 @@ exports.ReservationsModule = ReservationsModule = __decorate([
             common_2.DatabaseModule.forFeature([
                 { name: reservation_schema_1.ReservationDocument.name, schema: reservation_schema_1.ReservationSchema },
             ]),
-            nestjs_pino_1.LoggerModule.forRoot({
-                pinoHttp: {
-                    transport: {
-                        target: 'pino-pretty',
-                        options: {
-                            singleLine: true,
-                        },
-                    },
-                },
-            }),
+            common_2.LoggerModule,
         ],
         controllers: [reservations_controller_1.ReservationsController],
         providers: [reservations_service_1.ReservationsService, reservations_repository_1.ReservationsRepository],
@@ -557,6 +547,74 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(/*! ./database */ "./libs/common/src/database/index.ts"), exports);
+__exportStar(__webpack_require__(/*! ./logger */ "./libs/common/src/logger/index.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/logger/index.ts":
+/*!*****************************************!*\
+  !*** ./libs/common/src/logger/index.ts ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(/*! ./logger.module */ "./libs/common/src/logger/logger.module.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/logger/logger.module.ts":
+/*!*************************************************!*\
+  !*** ./libs/common/src/logger/logger.module.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoggerModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const nestjs_pino_1 = __webpack_require__(/*! nestjs-pino */ "nestjs-pino");
+let LoggerModule = class LoggerModule {
+};
+exports.LoggerModule = LoggerModule;
+exports.LoggerModule = LoggerModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            nestjs_pino_1.LoggerModule.forRoot({
+                pinoHttp: {
+                    transport: {
+                        target: 'pino-pretty',
+                        options: {
+                            singleLine: true,
+                        },
+                    },
+                },
+            }),
+        ],
+    })
+], LoggerModule);
 
 
 /***/ }),
