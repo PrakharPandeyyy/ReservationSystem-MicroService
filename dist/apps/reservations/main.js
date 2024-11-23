@@ -6,14 +6,46 @@
 /*!*************************************************************!*\
   !*** ./apps/reservations/src/dto/create-reservation.dto.ts ***!
   \*************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateReservationDto = void 0;
+const class_transformer_1 = __webpack_require__(/*! class-transformer */ "class-transformer");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class CreateReservationDto {
 }
 exports.CreateReservationDto = CreateReservationDto;
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_transformer_1.Type)(() => Date),
+    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
+], CreateReservationDto.prototype, "startDate", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_transformer_1.Type)(() => Date),
+    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+], CreateReservationDto.prototype, "endDate", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateReservationDto.prototype, "placeId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateReservationDto.prototype, "invoiceId", void 0);
 
 
 /***/ }),
@@ -669,6 +701,26 @@ module.exports = require("@nestjs/mongoose");
 
 /***/ }),
 
+/***/ "class-transformer":
+/*!************************************!*\
+  !*** external "class-transformer" ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = require("class-transformer");
+
+/***/ }),
+
+/***/ "class-validator":
+/*!**********************************!*\
+  !*** external "class-validator" ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = require("class-validator");
+
+/***/ }),
+
 /***/ "joi":
 /*!**********************!*\
   !*** external "joi" ***!
@@ -741,7 +793,7 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const nestjs_pino_1 = __webpack_require__(/*! nestjs-pino */ "nestjs-pino");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(reservations_module_1.ReservationsModule);
-    app.useGlobalPipes(new common_1.ValidationPipe());
+    app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true }));
     app.useLogger(app.get(nestjs_pino_1.Logger));
     await app.listen(process.env.port ?? 3000);
 }
