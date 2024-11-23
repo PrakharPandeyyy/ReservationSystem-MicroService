@@ -235,6 +235,8 @@ const reservations_controller_1 = __webpack_require__(/*! ./reservations.control
 const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
 const reservations_repository_1 = __webpack_require__(/*! ./reservations.repository */ "./apps/reservations/src/reservations.repository.ts");
 const reservation_schema_1 = __webpack_require__(/*! ./models/reservation.schema */ "./apps/reservations/src/models/reservation.schema.ts");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+const Joi = __webpack_require__(/*! joi */ "joi");
 let ReservationsModule = class ReservationsModule {
 };
 exports.ReservationsModule = ReservationsModule;
@@ -246,6 +248,13 @@ exports.ReservationsModule = ReservationsModule = __decorate([
                 { name: reservation_schema_1.ReservationDocument.name, schema: reservation_schema_1.ReservationSchema },
             ]),
             common_2.LoggerModule,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                validationSchema: Joi.object({
+                    MONGODB_URI: Joi.string().required(),
+                    PORT: Joi.number().required(),
+                }),
+            }),
         ],
         controllers: [reservations_controller_1.ReservationsController],
         providers: [reservations_service_1.ReservationsService, reservations_repository_1.ReservationsRepository],
@@ -349,43 +358,6 @@ exports.ReservationsService = ReservationsService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [typeof (_a = typeof reservations_repository_1.ReservationsRepository !== "undefined" && reservations_repository_1.ReservationsRepository) === "function" ? _a : Object])
 ], ReservationsService);
-
-
-/***/ }),
-
-/***/ "./libs/common/src/config/config.module.ts":
-/*!*************************************************!*\
-  !*** ./libs/common/src/config/config.module.ts ***!
-  \*************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ConfigModule = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
-const Joi = __webpack_require__(/*! joi */ "joi");
-let ConfigModule = class ConfigModule {
-};
-exports.ConfigModule = ConfigModule;
-exports.ConfigModule = ConfigModule = __decorate([
-    (0, common_1.Module)({
-        imports: [
-            config_1.ConfigModule.forRoot({
-                validationSchema: Joi.object({
-                    MONGODB_URI: Joi.string().required(),
-                }),
-                isGlobal: true,
-            }),
-        ],
-    })
-], ConfigModule);
 
 
 /***/ }),
@@ -501,7 +473,6 @@ exports.DatabaseModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const config_module_1 = __webpack_require__(/*! ../config/config.module */ "./libs/common/src/config/config.module.ts");
 let DatabaseModule = class DatabaseModule {
     static forFeature(models) {
         return mongoose_1.MongooseModule.forFeature(models);
@@ -512,7 +483,6 @@ exports.DatabaseModule = DatabaseModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forRootAsync({
-                imports: [config_module_1.ConfigModule],
                 inject: [config_1.ConfigService],
                 useFactory: (configService) => {
                     return {
@@ -791,11 +761,13 @@ const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
 const reservations_module_1 = __webpack_require__(/*! ./reservations.module */ "./apps/reservations/src/reservations.module.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const nestjs_pino_1 = __webpack_require__(/*! nestjs-pino */ "nestjs-pino");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(reservations_module_1.ReservationsModule);
     app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true }));
     app.useLogger(app.get(nestjs_pino_1.Logger));
-    await app.listen(process.env.port ?? 3000);
+    const configService = app.get(config_1.ConfigService);
+    await app.listen(configService.get('PORT'));
 }
 bootstrap();
 

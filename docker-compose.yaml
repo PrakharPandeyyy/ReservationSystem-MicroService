@@ -11,6 +11,9 @@ services:
       target: development
     # Override the default command to start the application in development mode
     command: npm run start:dev reservations
+    env_file:
+      # Load environment variables from the .env file
+      - ./apps/reservations/.env
     # Map the container's port 3000 to the host's port 3000 for accessing the service
     ports:
       - 3000:3000
@@ -23,6 +26,8 @@ services:
       dockerfile: ./apps/auth/Dockerfile
       target: development
     command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
     ports:
       - 3001:3000
     volumes:
