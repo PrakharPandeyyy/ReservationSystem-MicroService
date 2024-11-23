@@ -7,7 +7,7 @@ export class CreateReservationDto {
   startDate: Date;
 
   @IsDate()
-  @Type(() => Date) 
+  @Type(() => Date)
   endDate: Date;
 
   @IsString()
