@@ -1,15 +1,24 @@
 services:
+  # Define the reservations service
   reservations:
+    # Specify the build configuration for the reservations service
     build:
+      # Set the build context to the current directory
       context: .
+      # Specify the Dockerfile location for the reservations service
       dockerfile: ./apps/reservations/Dockerfile
+      # Use the "development" stage from the Dockerfile during the build process
       target: development
+    # Override the default command to start the application in development mode
     command: npm run start:dev reservations
+    # Map the container's port 3000 to the host's port 3000 for accessing the service
     ports:
       - 3000:3000
+    # Mount the current directory on the host machine to the container for live file updates
     volumes:
       - .:/usr/src/app
 
+  # Define the MongoDB service
   mongo:
+    # Use the official MongoDB image from Docker Hub
     image: mongo
-
