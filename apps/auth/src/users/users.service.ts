@@ -4,8 +4,8 @@ import { CreateUserDto } from './dto/create-user.to';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepositpry: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
   async create(createUserDto: CreateUserDto) {
-    return this.usersRepositpry.create(createUserDto);
+    return this.usersRepository.create(createUserDto);
   }
 }
