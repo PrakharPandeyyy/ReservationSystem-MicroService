@@ -180,24 +180,6 @@ exports.AuthService = AuthService = __decorate([
 
 /***/ }),
 
-/***/ "./apps/auth/src/current-user.decorator.ts":
-/*!*************************************************!*\
-  !*** ./apps/auth/src/current-user.decorator.ts ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CurrentUser = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const getCurrentUserByContext = (context) => {
-    return context.switchToHttp().getRequest().user;
-};
-exports.CurrentUser = (0, common_1.createParamDecorator)((_data, context) => getCurrentUserByContext(context));
-
-
-/***/ }),
-
 /***/ "./apps/auth/src/guards/jwt-auth-guard.ts":
 /*!************************************************!*\
   !*** ./apps/auth/src/guards/jwt-auth-guard.ts ***!
@@ -427,7 +409,7 @@ exports.UsersController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const create_user_dto_1 = __webpack_require__(/*! ./dto/create-user.dto */ "./apps/auth/src/users/dto/create-user.dto.ts");
 const users_service_1 = __webpack_require__(/*! ./users.service */ "./apps/auth/src/users/users.service.ts");
-const current_user_decorator_1 = __webpack_require__(/*! ../current-user.decorator */ "./apps/auth/src/current-user.decorator.ts");
+const current_user_decorator_1 = __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module '../current-user.decorator'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 const user_schema_1 = __webpack_require__(/*! ./schema/user.schema */ "./apps/auth/src/users/schema/user.schema.ts");
 const jwt_auth_guard_1 = __webpack_require__(/*! ../guards/jwt-auth-guard */ "./apps/auth/src/guards/jwt-auth-guard.ts");
 let UsersController = class UsersController {
